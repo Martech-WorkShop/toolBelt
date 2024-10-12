@@ -1,0 +1,9 @@
+#! /bin/bash
+
+# Sometimes you have to load a sources file... (currently commented out)
+# wget --user prv1 --password Hormiga2023 https://files.mktg.dev/conf/mariadb-11-4.sources -O /etc/apt/sources.list.d/mariadb.sources
+
+# Main MariaDB configuration file
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/50-server.cnf -O /etc/mysql/mariadb.conf.d/50-server.cnf
+
+# NOTE: Does the wait_timeout on reboot problem require a fix or was it an isolated case? or interactive_timeout seconds.

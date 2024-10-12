@@ -1,0 +1,4 @@
+APT::Periodic::Update-Package-Lists "always";
+APT::Periodic::Download-Upgradeable-Packages "always";
+APT::Periodic::AutocleanInterval "always";
+APT::Periodic::Unattended-Upgrade "always";

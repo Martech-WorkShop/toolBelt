@@ -1,0 +1,4 @@
+#!/bin/bash
+sudo tail -f /var/log/mysql/error.log
+
+#todo: Convert  tfmysql into tmysql (or tdb )  + parameter -f

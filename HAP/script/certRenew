@@ -1,0 +1,12 @@
+#!/bin/bash
+# Renovar certificados existentes.
+certbot renew --force-renewal --tls-sni-01-port=8888 && echo ""Finish renewCerts""
+sudo mkdir -p /etc/ssl/hapcerts
+sudo mkdir -p /etc/letsencrypt/live
+# Concatenar certificados al formato HAP.
+cd /etc/letsencrypt/live/
+for i in `ls`; do
+        if [ -d $i ]; then
+                cat /etc/letsencrypt/live/${i}/fullchain.pem /etc/letsencrypt/live/${i}/privkey.pem | sudo tee /etc/ssl/hapcerts/${i}.pem
+        fi
+done

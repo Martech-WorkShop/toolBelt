@@ -1,0 +1,11 @@
+#! /bin/bash
+
+#Call Pre-Reboot.sh
+#Shutdown containers one by one and then Start containers one by one?
+#Probably not needed as shutdown does it already.
+#How to add extra time before shutdown does a fill -9??
+
+# Create call to Post-Reboot.sh via init or cron?
+#check health
+#send email
+bash /usr/local/bin/governor

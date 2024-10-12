@@ -1,0 +1,2 @@
+#! /bin/bash
+lxc ls -c nsDmNuS4c

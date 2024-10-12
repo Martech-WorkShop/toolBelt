@@ -1,0 +1,32 @@
+#! /bin/bash
+
+#Beautify your prompt and add some aliases.
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/base/bashrc -O ~/.bashrc
+
+#List local commands (if any)
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/base/lt -O /usr/local/bin/lt
+
+# Login greeter
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/base/hi5 -O /usr/local/bin/hi5
+
+# Updater script
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/base/update -O /usr/local/bin/update
+# History | Grep Alias
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/hg -O /usr/local/bin/hg
+
+# sSMTP configuration files
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/ssmtp.conf -O /etc/ssmtp/ssmtp.conf
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/revaliases -O /etc/ssmtp/revaliases
+
+# Confugure unattended upgrades
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/50unattended-upgrades -O /etc/apt/apt.conf.d/50unattended-upgrades
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/20auto-upgrades -O /etc/apt/apt.conf.d/20auto-upgrades
+
+# Add the executable flag to scrips
+chmod +x /usr/local/bin/lt
+chmod +x /usr/local/bin/hi5
+chmod +x /usr/local/bin/update
+chmod +x /usr/local/bin/hg
+
+# You send a test email with:
+# echo -e 'Subject: Hello there!\n\nDoing good here, how are you doing?' | sendmail -vvv your@email.com

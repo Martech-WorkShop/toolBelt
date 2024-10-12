@@ -1,0 +1,9 @@
+#!/bin/bash
+lxc exec $@ bash
+
+# As an alias:
+# Better said as a function for an alias)
+# alias run=' _blah(){ lxc exec "$1" bash;}; _blah'
+# For example to be added to the colorize script  ~/.bashrc
+
+# Start the container if not started

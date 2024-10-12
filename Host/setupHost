@@ -1,0 +1,33 @@
+#! /bin/bash
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/bashrc -O ~/.bashrc
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/lt -O /usr/local/bin/lt
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/hi5 -O /usr/local/bin/hi5
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/update -O /usr/local/bin/update
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/hg -O /usr/local/bin/hg
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/run-DCKR -O /usr/local/bin/run
+##  wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/run-LXD -O /usr/local/bin/run
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/governor -O /usr/local/bin/governor
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/afterReboot -O /usr/local/bin/afterReboot
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/hostCrontab -O /usr/local/bin/hostCrontab
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/ssmtp.conf -O /etc/ssmtp/ssmtp.conf
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/revaliases -O /etc/ssmtp/revaliases
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/50unattended-upgrades -O /etc/apt/apt.conf.d/50unattended-upgrades
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/20auto-upgrades -O /etc/apt/apt.conf.d/20auto-upgrades
+
+chmod +x /usr/local/bin/lt
+chmod +x /usr/local/bin/hi5
+chmod +x /usr/local/bin/update
+chmod +x /usr/local/bin/hg
+chmod +x /usr/local/bin/run
+chmod +x /usr/local/bin/governor
+chmod +x /usr/local/bin/afterReboot
+
+crontab hostCrontab
+
+# Run governor after boot.
+#update
+
+bash /usr/local/bin/governor

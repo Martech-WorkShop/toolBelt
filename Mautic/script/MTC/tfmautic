@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo tail -f -n 250 /var/www/html/var/logs/prod-$(date +'%Y-%m-%d').php 
+sudo tail -f -n 250 /var/www/html/var/logs/mautic_prod-$(date +'%Y-%m-%d').php

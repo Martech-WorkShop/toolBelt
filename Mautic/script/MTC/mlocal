@@ -1,0 +1,2 @@
+#!/bin/bash
+nano /var/www/html/app/config/local.php

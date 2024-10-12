@@ -1,0 +1,26 @@
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+  server:
+    address: ":5000/udp"
+ 
+providers:
+  docker:
+    network: traefik-network
+ 
+api:
+  insecure: true
+  dashboard: true
+ 
+certificatesresolvers:
+  myhttpchallenge:
+    acme:
+      email: yosu.cadilla@gmail.com
+      storage: /letsencrypt/acme.json
+      httpchallenge:
+        entrypoint: web
+ 
+log:
+  level: DEBUG

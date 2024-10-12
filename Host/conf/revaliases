@@ -1,0 +1,2 @@
+#Adjust smtp.sendgrid.net:587 to match your MTA's parameters.
+root:youremail@yourdomain.com:smtp.sendgrid.net:587

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+echo "Min freq:"
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+echo "Max freq:"
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+echo "Previous governor"
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo -e "\n"
+echo "Current freq:"
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+echo "Setting governor to performance:"
+echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+echo -e "\n"
+echo "current governor"
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo "Current freq:"
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+
+
+# For reference:
+# cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list
+# cat /sys/devices/system/cpu/cpu1/cpufreq/scaling_setspeed
+
+#cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+#cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+#cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+#cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+
+#echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
+#cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+#cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+#cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+#cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+
+
+#cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list
+#cat /sys/devices/system/cpu/cpu1/cpufreq/scaling_setspeed

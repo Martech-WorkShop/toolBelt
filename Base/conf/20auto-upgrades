@@ -1,0 +1,5 @@
+# IN THEORY, DOCKER CONTAINERS SHOULD NOT BE UPDATED / UPGRADED.
+APT::Periodic::Update-Package-Lists "always";
+APT::Periodic::Download-Upgradeable-Packages "always";
+APT::Periodic::AutocleanInterval "always";
+APT::Periodic::Unattended-Upgrade "always";

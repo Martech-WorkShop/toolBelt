@@ -1,0 +1,85 @@
+#!/bin/sh
+host="$(hostname)"
+uptime="$(uptime -p | sed 's/up //')"
+kernel="$(uname -sr)"
+os="$(lsb_release -ds)"
+shell="$(bash --version | head -n1 | cut -c-24)"
+lxd="$(snap info lxd 2>/dev/null | grep installed | cut -c21-36)"
+#docker=""
+#k8s=""
+mysql="$(mysqld --version 2>/dev/null | cut -c13-28)"
+#unit=""
+apache="$(apachectl -v 2>/dev/null | head -n1 | cut -c24-29)"
+mautic="$(grep -oP '(?<="version": ")[^"]*' /var/www/html/app/release_metadata.json)"
+php="$(php -v 2>/dev/null | head -n1 | cut -c5-11)"
+cpu="$(lscpu | grep "Model name" | cut -c37-100)"
+ram="$(free -h | grep Mem | cut -c17-45)"
+swap="$(free -h | grep Swap | cut -c17-45)"
+disk="$(df -h --total | grep total | cut -c6-99 | sed 's/..$//' | sed 's/^[ \t]*//')"
+#packages="$(dpkg -l | wc -l)"
+if [ -x "$(command -v tput)" ]; then
+        bold="$(tput bold)"
+        black="$(tput setaf 0)"
+        red="$(tput setaf 202)"
+        green="$(tput setaf 2)"
+        yellow="$(tput setaf 214)"
+        blue="$(tput setaf 19)"
+        magenta="$(tput setaf 99)"
+        cyan="$(tput setaf 6)"
+        white="$(tput setaf 7)"
+        reset="$(tput sgr0)"
+fi
+lc="${reset}${bold}${yellow}"
+nc="${reset}${bold}${yellow}"
+ic="${reset}${red}"
+c0="${reset}${magenta}"
+cat <<EOF
+${c0}                                 -- ${ic}${reset} 
+${c0}                           ((((((())))))) ${ic}${reset}  
+${c0}                      ((((((((         )))))) ${ic}${reset} 
+${c0}                   (((((${nc}                      , ${ic}${reset}
+${c0}                ((((${nc}                        ***  ${c0}  ))) ${ic}${reset}
+${c0}              ((((  ${nc}                      ****   ${c0}   ))) ${ic}${reset}
+${c0}             ((((   ${nc}       ,             ****    ${c0}    ))) ${ic}${reset} 
+${c0}            (((     ${nc}      ****         ****      ${c0}     ))) ${ic}${reset}
+${c0}           (((      ${nc}     *******     *****       ${c0}      ))) ${ic}${reset}
+${c0}           (((      ${nc}    ********** ******  **    ${c0}      ))) ${ic}${reset}
+${c0}           (((      ${nc}   ****   *********   ****   ${c0}      ))) ${ic}${reset}
+${c0}           (((      ${nc}  ****     ******      ****  ${c0}      ))) ${ic}${reset}
+${c0}           (((      ${nc} ****         *         **** ${c0}      ))) ${ic}${reset}
+${c0}            (((     ${nc}****                     ****${c0}     ))) ${ic}${reset}
+${c0}             ((((                                   )))) ${ic}${reset}
+${c0}               (((                                 ))) ${ic}${reset}
+${c0}                (((((                           ))))) ${ic}${reset}
+${c0}                   (((((                     ))))) ${ic}${reset}
+${c0}                       (((((((         ))))))) ${ic}${reset}
+${c0}                            (((((())))))) ${ic}${reset}
+${ic}                      _     _   ${c0} --         ${ic} _ ${reset}
+${ic}                     | |   | |              | | ${reset}
+${ic}           ________  | | __| |_  ____     __| |  ___ __   __ ${reset}
+${ic}          |  _   _ \ | |/ /| __|/ _  |   / _  | / _ \\  \\ / / ${reset}
+${ic}          | | | | | ||   < | |_| (_| | _| (_| ||  __/ \ V / ${reset}
+${ic}          |_| |_| |_||_|\_\ \__|\___ |(_)\____| \___|  \_/ ${reset}
+${ic}                         _       __/ | ${reset}
+${ic}                        | |     |___/ ${reset}
+${ic}   ________   ____ _   _| |_ ___  ____ _______        ___  ____ ____  ${reset}
+${ic}  |  _   _ \ / _  | | | | __/ _ \/ _  |  _   _ \     / _ \|  __/ _  | ${reset}
+${ic}  | | | | | | (_| | |_| | ||  __/ (_| | | | | | | _  |(_) | | | (_| | ${reset}
+${ic}  |_| |_| |_|\__,_|\__,_|\__\___|\__,_|_| |_| |_|(_) \___/|_|  \__, | ${reset}
+${ic}                                                                __/ | ${reset}
+${c0}                                                              ${ic} |___/ ${reset}
+${c0}                ${ic}Hostname:    ${lc}${host}${reset}
+${c0}                ${ic}Uptime:      ${lc}${uptime}${reset}
+${c0}                ${ic}Kernel:      ${lc}${kernel}${reset}
+${c0}                ${ic}OS:          ${lc}${os}${reset}
+${c0}                ${ic}Shell:       ${lc}${shell}${reset}
+${c0}                ${ic}LXD:         ${lc}${lxd}${reset}
+${c0}                ${ic}MySQL:       ${lc}${mysql}${reset}
+${c0}                ${ic}Apache:      ${lc}${apache}${reset}
+${c0}                ${ic}PHP:         ${lc}${php}${reset}
+${c0}                ${ic}Mautic:      ${lc}${mautic}${reset}
+${c0}                ${ic}CPU:         ${lc}${cpu}${reset}
+${c0}                ${ic}RAM:         ${lc}${ram}${reset}
+${c0}                ${ic}SWAP:        ${lc}${swap}${reset}
+${c0}                ${ic}Disk:        ${lc}${disk}${reset} 
+EOF

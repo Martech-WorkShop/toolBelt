@@ -1,0 +1,4 @@
+#!/bin/bash
+certbot certonly --standalone -d $@ --non-interactive --agree-tos --email yosu.cadilla@gmail.com --http-01-port=8888
+certsConcat 
+service haproxy reload

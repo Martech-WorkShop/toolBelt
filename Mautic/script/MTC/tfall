@@ -1,0 +1,24 @@
+#!/bin/bash
+echo
+echo "-----> APACHE LOGS <-----"
+echo
+sudo tail -f /var/log/apache2/error.log
+
+echo
+echo
+echo "-----> FPM LOGS <-----"
+echo
+sudo tail -f /var/log/php7.3-fpm.log
+
+echo
+echo
+echo "-----> MAUTIC LOGS <-----"
+echo
+sudo tail -f /var/www/html/var/logs/prod-$(date +'%Y-%m-%d').php
+sudo tail -f /var/www/html/var/logs/mautic_prod-$(date +'%Y-%m-%d').php
+
+echo
+echo
+echo "-----> MYSQL LOGS <-----"
+echo
+sudo tail -f /var/log/mysql/error.log

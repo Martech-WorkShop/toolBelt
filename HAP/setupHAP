@@ -1,0 +1,23 @@
+#! /bin/bash
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/bashrc -O ~/.bashrc
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/lt -O /usr/local/bin/lt
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/hi5 -O /usr/local/bin/hi5
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/update -O /usr/local/bin/update
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/certAdd -O /usr/local/bin/certAdd
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/certConcat -O /usr/local/bin/certConcat
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/certDry -O /usr/local/bin/certDry
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/certRenew -O /usr/local/bin/certRenew
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/hap/certRenew.cron -O /usr/local/bin/certRenew.cron
+
+chmod +x /usr/local/bin/lt
+chmod +x /usr/local/bin/hi5
+chmod +x /usr/local/bin/update
+
+chmod +x /usr/local/bin/certAdd
+chmod +x /usr/local/bin/certConcat
+chmod +x /usr/local/bin/certDry
+chmod +x /usr/local/bin/certRenew
+
+# add  /usr/local/bin/certRenew to crontab

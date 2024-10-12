@@ -1,0 +1,22 @@
+version: '3.8'
+ 
+services:
+  reverse-proxy:
+    container_name: 'traefik_reverse_proxy'
+    image: traefik:v2.4
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+      - "5000:5000/udp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - /letsencrypt:/letsencrypt
+    networks:
+      - traefik-network
+    restart: unless-stopped
+ 
+networks:
+  traefik-network:
+    external: true

@@ -1,0 +1,10 @@
+# MariaDB 11.4 repository list - created 2024-08-04 09:11 UTC
+# https://mariadb.org/download/
+X-Repolib-Name: MariaDB
+Types: deb
+# deb.mariadb.org is a dynamic mirror if your preferred mirror goes offline. See https://mariadb.org/mirrorbits/ for details.
+# URIs: https://deb.mariadb.org/11.4/debian
+URIs: https://mirrors.n-ix.net/mariadb/repo/11.4/debian
+Suites: bookworm
+Components: main
+Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp

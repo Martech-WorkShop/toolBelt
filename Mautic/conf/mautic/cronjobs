@@ -1,0 +1,32 @@
+### Watch out not to put nightly work during the day because of different timezones.
+
+# Main cronjobs
+0-59/3 * * * *   www-data sleep 0 && php /var/www/html/bin/console mautic:segments:update -n > /dev/null 2>> /var/log/cron/cron-error.log
+1-59/3 * * * *   www-data sleep 0 && php /var/www/html/bin/console mautic:campaigns:update -n > /dev/null 2>> /var/log/cron/cron-error.log
+2-59/5 * * * *   www-data sleep 0 && php /var/www/html/bin/console mautic:campaigns:trigger -n > /dev/null 2>> /var/log/cron/cron-error.log
+* * * * *        www-data sleep 0 && php /var/www/html/bin/console mautic:emails:send -n > /dev/null 2>> /var/log/cron/cron-error.log
+* * * * *        www-data sleep 0 && php /var/www/html/bin/console mautic:webhooks:process -n > /dev/null 2>> /var/log/cron/cron-error.log
+
+# Old data cleanup
+0 1 * * *        www-data sleep 0 && php /var/www/html/bin/console mautic:maintenance:cleanup -n --days-old=160 > /dev/null 2>> /var/log/cron/cron-error.log
+30 1 * * *       www-data sleep 0 && php /var/www/html/bin/console mautic:unusedip:delete -n -l 1000000 > /dev/null 2>> /var/log/cron/cron-error.log
+
+# Imports and reports
+0 2 * * *       www-data sleep 0 && php /var/www/html/bin/console mautic:import > /dev/null 2>> /var/log/cron/cron-error.log
+0 3 * * *       www-data sleep 0 && php /var/www/html/bin/console mautic:reports:scheduler > /dev/null 2>> /var/log/cron/cron-error.log
+
+# Maxmind IP Lookup
+0 4 * * *       www-data sleep 0 && php /var/www/html/bin/console mautic:iplookup:download -n > /dev/null 2>> /var/log/cron/cron-error.log
+30 4 * * *      www-data sleep 0 && php /var/www/html/bin/console mautic:donotsell:download -n > /dev/null 2>> /var/log/cron/cron-error.log
+0 5 * * *       www-data sleep 0 && php /var/www/html/bin/console mautic:max-mind:purge -n > /dev/null 2>> /var/log/cron/cron-error.log
+
+# Activated on demand
+# 3-59/5 * * * * www-data sleep 0 && php /var/www/html/bin/console mautic:messages:send -n > /dev/null 2>> /var/log/cron/cron-error.log
+# 3-59/5 * * * * www-data sleep 0 && php /var/www/html/bin/console mautic:email:fetch -n > /dev/null 2>> /var/log/cron/cron-error.log
+# 3-59/5 * * * * www-data sleep 0 && php /var/www/html/bin/console mautic:social:monitoring -n > /dev/null 2>> /var/log/cron/cron-error.log
+# 3-59/5 * * * * www-data sleep 0 && php /var/www/html/bin/console mautic:webhooks:process -n > /dev/null 2>> /var/log/cron/cron-error.log
+# 3-59/5 * * * * www-data sleep 0 && php /var/www/html/bin/console mautic:broadcasts:send -n > /dev/null 2>> /var/log/cron/cron-error.log
+
+# Refresh and Reboot (DEFINE THE ANTI_HOUR FIRST (Maybe add it to the onboarding document)
+# 30 5 * * *      sleep 0 && apt update && apt ugrade -y && apt autoremove -y > /dev/null 2>> /var/log/cron/cron-error.log
+# 0 6 * * *       sleep 0 && reboot

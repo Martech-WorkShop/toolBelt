@@ -1,0 +1,1 @@
+docker ps -a --format 'table {{.Image}} \t {{.ID}} \t {{.Names}} \t {{.Status}} \t {{.Ports}}
