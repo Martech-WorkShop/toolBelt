@@ -69,7 +69,7 @@ Prod is the "main / master" contains the latest production-ready version.
 LTS for those extra carefull people who can not risk it with mere "production-ready" files.
 v6, v7, v8, etc... These are frozen in time and allow you to use the same version forever...
 
-## Which branch shoulkd I use?
+## Which branch should I use?
 If you don't know which branch is best for you:
 Start with Prod, it's up-to-date enough for your scripts not to go outdated, but far from cutting edge, so you do not hit any trouble.
 LTS is even more conservative and further away from the latest stuff, making it more resillient, but still "getting updates automatically".
