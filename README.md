@@ -100,10 +100,6 @@ For Sysadmins, DevOps, Bash wizards and Dockerfile maestros:
 - If you have created scripts or have great configuration files for other martech tools, use this repo to share with the world.
 - If you have improvements or simply comments about how to improve the existing scripts and files, considering opening an issue or filing a PR.
 
-## License:
-This repository is licensed under the [License Name] license. See the LICENSE file for details.
-
-
 
 ## Currently Available Components
 
