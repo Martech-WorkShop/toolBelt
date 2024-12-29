@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# --- Usage Function ---
+usage() {
+  echo "Usage: $0 [OPTIONS]"
+  echo ""
+  echo "Installs Docker CE and related components on Debian/Ubuntu systems."
+  echo ""
+  echo "Options:"
+  echo "  -h | --help     Show this help message and exit"
+  echo ""
+  echo "The script will interactively prompt you to select a Docker version to install."
+}
+
+# --- Main Script ---
+
+# Check if script is run with -h, --help, or no arguments; if so, display usage and exit.
+if [[ $# -gt 0 ]] && ( [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]] ); then
+  usage
+  exit 0
+fi
+
+# Check if running as root or using sudo
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root or with sudo."
+   exit 1
+fi
+
+# Check for existing Docker installation
+if command -v docker &> /dev/null; then
+  EXISTING_VERSION=$(docker --version)
+  echo -e "Docker is already installed.\nDetected version: $EXISTING_VERSION\nexiting docker-install"
+  exit 1
+fi
+
+# --- Step 1: Add Docker Repository ---
+echo "Adding Docker repository..."
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+# --- Step 2: Get Available Docker Versions ---
+echo "Retrieving available Docker versions..."
+available_versions=$(apt-cache madison docker-ce | awk '{ print $3 }')
+
+# Check if any versions are available
+if [[ -z "$available_versions" ]]; then
+  echo "Error: No Docker versions found in the apt cache."
+  exit 1
+fi
+
+# Display available versions with numbers
+echo "Available Docker versions:"
+IFS=$'\n' read -r -d '' -a versions <<< "$available_versions"
+for i in "${!versions[@]}"; do
+  echo "$((i+1))) ${versions[i]}"
+done
+
+# Set the default version (hardcoded as requested)
+DEFAULT_VERSION="5:27.3.1-1~debian.12~bookworm"
+
+# Prompt user for selection
+read -p "Select a version to install (or press Enter for default: $DEFAULT_VERSION): " user_selection
+
+# --- Step 3: Install Docker ---
+# Set the VERSION_STRING variable based on user selection or default
+if [[ -z "$user_selection" ]]; then
+  VERSION_STRING="$DEFAULT_VERSION"
+else
+  # Validate user input
+  if [[ "$user_selection" =~ ^[0-9]+$ ]] && [[ "$user_selection" -ge 1 ]] && [[ "$user_selection" -le "${#versions[@]}" ]]; then
+    VERSION_STRING="${versions[$((user_selection-1))]}"
+  else
+    echo "Invalid selection. Using default version: $DEFAULT_VERSION"
+    VERSION_STRING="$DEFAULT_VERSION"
+  fi
+fi
+
+# Find the selected version in the available_versions array
+selected_version_index=$(printf '%s\n' "${versions[@]}" | grep -n "$VERSION_STRING" | head -n 1 | cut -d ':' -f 1)
+
+# If the selected version is not found, set it to the default version
+if [[ -z "$selected_version_index" ]]; then
+  echo "The selected version was not found, using default version: $DEFAULT_VERSION"
+  VERSION_STRING="$DEFAULT_VERSION"
+fi
+
+echo "Installing Docker version: $VERSION_STRING"
+sudo apt-get install -y docker-ce="$VERSION_STRING" docker-ce-cli="$VERSION_STRING" containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Check if the installation was successful
+if ! command -v docker &> /dev/null; then
+  echo "Docker installation failed."
+  exit 1
+fi
+
+echo -e "\ndocker --version"
+docker --version
+
+exit 0

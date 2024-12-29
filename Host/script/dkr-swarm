@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# Check if Docker is installed
+if ! command -v docker &> /dev/null; then
+  echo "Error: Docker is not installed. Please run the docker-install script first."
+  exit 1
+fi
+
+# Check if Swarm is already initialized
+if docker info | grep -q "Swarm: active"; then
+  echo "Error: Docker Swarm is already initialized on this node."
+  exit 1
+fi
+
+# --- Usage Function ---
+usage() {
+  echo "Usage: $0 [OPTIONS]"
+  echo ""
+  echo "Initializes a new Docker Swarm"
+  echo ""
+  echo "Options:"
+  echo "  -h | --help     Show this help message and exit"
+  echo ""
+  echo "(Interactive prompts will guide you through IP and address pool selection)"
+}
+
+# --- Main Script ---
+# Check if script is run with -h, --help, or no arguments; if so, display usage and exit.
+if [[ $# -eq 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+  usage
+  exit 0
+fi
+
+echo -e "\nInitializing Docker Swarm..."
+
+# Determine potential IP addresses
+if [[ $(curl -s http://169.254.169.254/latest/meta-data/instance-id 2>/dev/null) ]]; then
+    # AWS environment
+    INTERNAL_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+    PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+else
+    # Non-AWS environment
+    INTERNAL_IP=$(hostname -I | awk '{print $1}')
+    PUBLIC_IP=$(curl -s ifconfig.me)
+fi
+
+# Determine the default IP based on network configuration
+if [[ -n "$INTERNAL_IP" ]] && [[ "$INTERNAL_IP" != "$PUBLIC_IP" ]]; then
+  DEFAULT_IP="$INTERNAL_IP"
+  IP_CHOICE_MSG="1) Internal IP: $INTERNAL_IP (Recommended for nodes in the same network)\n2) Public IP: $PUBLIC_IP (For nodes in different networks)"
+else
+  DEFAULT_IP="$PUBLIC_IP"
+  IP_CHOICE_MSG="1) Public IP: $PUBLIC_IP"
+fi
+
+echo "Detected IP Addresses:"
+echo -e "$IP_CHOICE_MSG"
+echo "2) Default: Use $DEFAULT_IP"
+
+read -p "Select the IP address to advertise (or press Enter for default): " IP_CHOICE
+
+# Set the ADVERTISE_IP based on user selection or default
+if [[ -z "$IP_CHOICE" ]]; then
+  ADVERTISE_IP="$DEFAULT_IP"
+  echo "Using default IP address: $ADVERTISE_IP"
+elif [[ "$IP_CHOICE" =~ ^[0-9]+$ ]] && [[ "$IP_CHOICE" -ge 1 ]] && [[ "$IP_CHOICE" -le 2 ]]; then
+  if [[ "$IP_CHOICE" -eq 1 ]]; then
+    if [[ -n "$INTERNAL_IP" ]] && [[ "$INTERNAL_IP" != "$PUBLIC_IP" ]]; then
+        ADVERTISE_IP="$INTERNAL_IP"
+    else
+        ADVERTISE_IP="$PUBLIC_IP"
+    fi
+  else
+    ADVERTISE_IP="$PUBLIC_IP"
+  fi
+  echo "Using selected IP address: $ADVERTISE_IP"
+else
+  ADVERTISE_IP="$DEFAULT_IP"
+  echo "Invalid selection. Using default IP address: $ADVERTISE_IP"
+fi
+
+# Set the default address pool
+DEFAULT_ADDR_POOL="10.1.0.0/16"
+
+echo -e "\nAddress Pool Options:"
+echo "1) Default: $DEFAULT_ADDR_POOL"
+echo "2) Other (Manual Input)"
+
+read -p "Select the default address pool (or press Enter for default): " POOL_CHOICE
+
+# Set the DEFAULT_ADDR_POOL based on user selection or default
+if [[ -z "$POOL_CHOICE" ]]; then
+  ADDR_POOL_OPTION="--default-addr-pool $DEFAULT_ADDR_POOL"
+  echo "Using default address pool: $DEFAULT_ADDR_POOL"
+elif [[ "$POOL_CHOICE" == "2" ]]; then
+  read -p "Enter the desired default address pool (e.g., 192.168.0.0/24): " MANUAL_POOL
+  ADDR_POOL_OPTION="--default-addr-pool $MANUAL_POOL"
+  echo "Using manually entered address pool: $MANUAL_POOL"
+else
+  ADDR_POOL_OPTION="--default-addr-pool $DEFAULT_ADDR_POOL"
+  echo "Invalid selection. Using default address pool: $DEFAULT_ADDR_POOL"
+fi
+
+SWARM_INIT_COMMAND="sudo docker swarm init"
+if [[ -n "$ADVERTISE_IP" ]]; then
+  SWARM_INIT_COMMAND="$SWARM_INIT_COMMAND --advertise-addr $ADVERTISE_IP"
+fi
+if [[ -n "$ADDR_POOL_OPTION" ]]; then
+  SWARM_INIT_COMMAND="$SWARM_INIT_COMMAND $ADDR_POOL_OPTION"
+fi
+
+echo -e "\nExecuting: $SWARM_INIT_COMMAND"
+eval "$SWARM_INIT_COMMAND"
+
+# Capture and display the chosen advertise address and address pool
+CHOSEN_ADVERTISE_ADDR=$(docker info --format '{{.Swarm.NodeAddr}}')
+echo -e "\nSwarm initialized with advertise address: $CHOSEN_ADVERTISE_ADDR"
+
+if [[ -n "$ADDR_POOL_OPTION" ]] ; then
+    CHOSEN_ADDR_POOL=$(docker network inspect bridge --format='{{range .IPAM.Config}}{{.Subnet}}{{end}}')
+    echo "Swarm initialized with address pool: $CHOSEN_ADDR_POOL"
+fi
+
+# Display ready-to-execute join commands
+WORKER_TOKEN=$(sudo docker swarm join-token worker -q)
+MANAGER_TOKEN=$(sudo docker swarm join-token manager -q)
+echo -e "\nTo add a worker to this swarm, run the following command on a worker node:"
+echo "  sudo docker swarm join --token $WORKER_TOKEN $CHOSEN_ADVERTISE_ADDR:2377"
+echo -e "\nTo add a manager to this swarm, run the following command on a manager node:"
+echo "  sudo docker swarm join --token $MANAGER_TOKEN $CHOSEN_ADVERTISE_ADDR:2377"
+
+exit 0
