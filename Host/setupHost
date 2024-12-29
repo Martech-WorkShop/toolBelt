@@ -1,22 +1,28 @@
 #! /bin/bash
 
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/bashrc -O ~/.bashrc
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/lt -O /usr/local/bin/lt
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/hi5 -O /usr/local/bin/hi5
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/update -O /usr/local/bin/update
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/hg -O /usr/local/bin/hg
+#curl -s -O /usr/local/bin/hostCrontab https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/setupHost
 
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/run-DCKR -O /usr/local/bin/run
-##  wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/run-LXD -O /usr/local/bin/run
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/governor -O /usr/local/bin/governor
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/afterReboot -O /usr/local/bin/afterReboot
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/hostCrontab -O /usr/local/bin/hostCrontab
 
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/ssmtp.conf -O /etc/ssmtp/ssmtp.conf
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/revaliases -O /etc/ssmtp/revaliases
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/50unattended-upgrades -O /etc/apt/apt.conf.d/50unattended-upgrades
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/20auto-upgrades -O /etc/apt/apt.conf.d/20auto-upgrades
+# Load scripts
+curl -s -O ~/.bashrc                   https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/bashrc
+curl -s -O /usr/local/bin/lt           https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/lt
+curl -s -O /usr/local/bin/hi5          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hi5
+curl -s -O /usr/local/bin/update       https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/update
+curl -s -O /usr/local/bin/hg           https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hg
+curl -s -O /usr/local/bin/run          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-dkr
+#curl -s -O /usr/local/bin/run         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-lxd
+curl -s -O /usr/local/bin/governor     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/governor
+curl -s -O /usr/local/bin/afterReboot  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/afterReboot
+curl -s -O /usr/local/bin/dkr-install  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-install
+curl -s -O /usr/local/bin/dkr-swarm    https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-swarm
 
+# Load config files
+curl -s -O /etc/ssmtp/ssmtp.conf                      https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/ssmtp.conf
+curl -s -O /etc/ssmtp/revaliases                      https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/revaliases
+curl -s -O /etc/apt/apt.conf.d/50unattended-upgrades  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/50unattended-upgrades
+curl -s -O /etc/apt/apt.conf.d/20auto-upgrades        https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/20auto-upgrades
+
+# Set permissions
 chmod +x /usr/local/bin/lt
 chmod +x /usr/local/bin/hi5
 chmod +x /usr/local/bin/update
@@ -24,10 +30,12 @@ chmod +x /usr/local/bin/hg
 chmod +x /usr/local/bin/run
 chmod +x /usr/local/bin/governor
 chmod +x /usr/local/bin/afterReboot
+chmod +x /usr/local/bin/dkr-install
+chmod +x /usr/local/bin/dkr-swarm
 
+# Run scripts
 crontab hostCrontab
-
+update
 # Run governor after boot.
-#update
-
-bash /usr/local/bin/governor
+# bash /usr/local/bin/governor
+governor
