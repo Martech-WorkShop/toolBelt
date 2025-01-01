@@ -16,7 +16,8 @@ apache="$(apachectl -v 2>/dev/null | head -n1 | cut -c24-29)"
 #mautic="$(grep -oP '(?<="version": ")[^"]*' /var/www/html/app/release_metadata.json)"
 php="$(php -v 2>/dev/null | head -n1 | cut -c5-11)"
 cpu="$(lscpu | awk -F: '/Model name/{gsub(/  CPU.*/,""); print $2}' | awk '{$1=$1}1')"
-ram="$(free -h | awk '/Mem/{printf "%8s %8s %8s", $2,$3,$4}')"
+
+ram="$(free -h | awk '/Mem/{printf "%10s %10s %10s", $2,$3,$4}' | sed 's/i//g')"
 swap="$(free -h | awk '/Swap/{printf "%7s %8s %8s", $2,$3,$4}')"
 disk="$(df -h --total | awk '/total/{printf "%7s %8s %8s %8s", $2,$3,$4,$5}' )"
 
