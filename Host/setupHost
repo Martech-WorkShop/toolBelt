@@ -1,4 +1,6 @@
 #!/bin/bash
+#curl -o setupHost https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/setupHost && bash setupHost
+
 # Check if the user is root or has sudo privileges, exit if not
 if [ "$EUID" -ne 0 ] && ! sudo -n true 2>/dev/null; then
   echo "Script must be run with root or sudo privileges."

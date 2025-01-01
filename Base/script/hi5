@@ -4,8 +4,9 @@ uptime="$(uptime -p | sed 's/up //')"
 kernel="$(uname -sr)"
 os="$(lsb_release -ds)"
 shell="$(bash --version | head -n1 | cut -c-24)"
-lxd="$(snap info lxd 2>/dev/null | grep installed | cut -c21-36)"
-#docker=""
+#lxd="$(snap info lxd 2>/dev/null | grep installed | cut -c21-36)"
+dkr="docker -v"
+swarm="docker info --format '{{.Swarm.ControlAvailable}}'"
 #k8s=""
 mysql="$(mysqld --version 2>/dev/null | cut -c13-28)"
 #unit=""
@@ -17,6 +18,7 @@ ram="$(free -h | grep Mem | cut -c17-45)"
 swap="$(free -h | grep Swap | cut -c17-45)"
 disk="$(df -h --total | grep total | cut -c6-99 | sed 's/..$//' | sed 's/^[ \t]*//')"
 #packages="$(dpkg -l | wc -l)"
+
 if [ -x "$(command -v tput)" ]; then
         bold="$(tput bold)"
         black="$(tput setaf 0)"
@@ -34,13 +36,13 @@ nc="${reset}${bold}${yellow}"
 ic="${reset}${red}"
 c0="${reset}${magenta}"
 cat <<EOF
-${c0}                                 -- ${ic}${reset} 
-${c0}                           ((((((())))))) ${ic}${reset}  
-${c0}                      ((((((((         )))))) ${ic}${reset} 
+${c0}                                 -- ${ic}${reset}
+${c0}                           ((((((())))))) ${ic}${reset}
+${c0}                      ((((((((         )))))) ${ic}${reset}
 ${c0}                   (((((${nc}                      , ${ic}${reset}
 ${c0}                ((((${nc}                        ***  ${c0}  ))) ${ic}${reset}
 ${c0}              ((((  ${nc}                      ****   ${c0}   ))) ${ic}${reset}
-${c0}             ((((   ${nc}       ,             ****    ${c0}    ))) ${ic}${reset} 
+${c0}             ((((   ${nc}       ,             ****    ${c0}    ))) ${ic}${reset}
 ${c0}            (((     ${nc}      ****         ****      ${c0}     ))) ${ic}${reset}
 ${c0}           (((      ${nc}     *******     *****       ${c0}      ))) ${ic}${reset}
 ${c0}           (((      ${nc}    ********** ******  **    ${c0}      ))) ${ic}${reset}
@@ -73,7 +75,8 @@ ${c0}                ${ic}Uptime:      ${lc}${uptime}${reset}
 ${c0}                ${ic}Kernel:      ${lc}${kernel}${reset}
 ${c0}                ${ic}OS:          ${lc}${os}${reset}
 ${c0}                ${ic}Shell:       ${lc}${shell}${reset}
-${c0}                ${ic}LXD:         ${lc}${lxd}${reset}
+${c0}                ${ic}Docker:      ${lc}${dkr}${reset}
+${c0}                ${ic}Swarm Mode:  ${lc}${swarm}${reset}
 ${c0}                ${ic}MySQL:       ${lc}${mysql}${reset}
 ${c0}                ${ic}Apache:      ${lc}${apache}${reset}
 ${c0}                ${ic}PHP:         ${lc}${php}${reset}
@@ -81,5 +84,5 @@ ${c0}                ${ic}Mautic:      ${lc}${mautic}${reset}
 ${c0}                ${ic}CPU:         ${lc}${cpu}${reset}
 ${c0}                ${ic}RAM:         ${lc}${ram}${reset}
 ${c0}                ${ic}SWAP:        ${lc}${swap}${reset}
-${c0}                ${ic}Disk:        ${lc}${disk}${reset} 
+${c0}                ${ic}Disk:        ${lc}${disk}${reset}
 EOF
