@@ -26,7 +26,7 @@ curl -o /usr/local/bin/rebooting   https://raw.githubusercontent.com/Martech-Wor
 
 # Get Host config files
 mkdir -p /etc/ssmtp
-curl -o /cronjobs                                 https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/cronjobs
+curl -o cronjobs                                 https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/cronjobs
 curl -o /etc/ssmtp/ssmtp.conf                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/ssmtp.conf
 curl -o /etc/ssmtp/revaliases                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/revaliases
 curl -o /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/50unattended-upgrades
