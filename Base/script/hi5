@@ -17,8 +17,8 @@ apache="$(apachectl -v 2>/dev/null | head -n1 | cut -c24-29)"
 php="$(php -v 2>/dev/null | head -n1 | cut -c5-11)"
 cpu="$(lscpu | awk -F: '/Model name/{gsub(/  CPU.*/,""); print $2}' | awk '{$1=$1}1')"
 ram="$(free -h | awk '/Mem/{printf "%8s %8s %8s", $2,$3,$4}')"
-swap="$(free -h | awk '/Swap/{printf "%7s %7s %7s", $2,$3,$4}')"
-disk="$(df -h --total | awk '/total/{printf "%7s %7s %7s %7s", $2,$3,$4,$5}' )"
+swap="$(free -h | awk '/Swap/{printf "%7s %8s %8s", $2,$3,$4}')"
+disk="$(df -h --total | awk '/total/{printf "%7s %8s %8s %8s", $2,$3,$4,$5}' )"
 
 #packages="$(dpkg -l | wc -l)"
 
