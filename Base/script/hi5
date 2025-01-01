@@ -18,8 +18,8 @@ php="$(php -v 2>/dev/null | head -n1 | cut -c5-11)"
 cpu="$(lscpu | awk -F: '/Model name/{gsub(/  CPU.*/,""); print $2}' | awk '{$1=$1}1')"
 
 ram="$(free -h | awk '/Mem/{printf "%10s %10s %10s", $2,$3,$4}' | sed 's/i//g')"
-swap="$(free -h | awk '/Swap/{printf "%7s %8s %8s", $2,$3,$4}')"
-disk="$(df -h --total | awk '/total/{printf "%7s %8s %8s %8s", $2,$3,$4,$5}' )"
+swap="$(free -h | awk '/Swap/{printf "%9s %10s %11s", $2,$3,$4}')"
+disk="$(df -h --total | awk '/total/{printf "%9s %10s %11 %9s", $2,$3,$4,$5}' )"
 
 #packages="$(dpkg -l | wc -l)"
 
