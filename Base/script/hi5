@@ -21,13 +21,17 @@ php="$(php -v 2>/dev/null | head -n1 | cut -c5-11)"
 cpu="$(lscpu | awk -F: '/Model name/{gsub(/  CPU.*/,""); print $2}' | awk '{$1=$1}1')"
 #cpu="$(lscpu | grep "Model name" | cut -c37-75)"
 
+ram="$(free -h | awk '/Mem/{printf "%10s %10s %10s", $2,$3,$4}')"
+swap="$(free -h | awk '/Swap/{printf "%10s %10s %10s", $2,$3,$4}')"
+disk="$(df -h --total | awk '/total/{printf "%10s %10s %10s %5s", $2,$3,$4,$5}' )"
+
 #ram="$(free -h | grep Mem | cut -c17-45)"
 #swap="$(free -h | grep Swap | cut -c17-45)"
 #disk="$(df -h --total | grep total | cut -c6-99 | sed 's/..$//' | sed 's/^[ \t]*//')"
 
-ram="$(free -h | awk '/Mem/{print $2,$3,$4}' )"
-swap="$(free -h | awk '/Swap/{print $2,$3,$4}')"
-disk="$(df -h --total | awk '/total/{print $2,$3,$4,$5}' )"
+#ram="$(free -h | awk '/Mem/{print $2,$3,$4}' )"
+#swap="$(free -h | awk '/Swap/{print $2,$3,$4}')"
+#disk="$(df -h --total | awk '/total/{print $2,$3,$4,$5}' )"
 
 #packages="$(dpkg -l | wc -l)"
 
