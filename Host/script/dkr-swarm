@@ -2,7 +2,7 @@
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
-  echo "Error: Docker is not installed. Please run the docker-install script first."
+  echo "Error: Docker is not installed. Please run the dkr-install script first."
   exit 1
 fi
 
@@ -25,8 +25,8 @@ usage() {
 }
 
 # --- Main Script ---
-# Check if script is run with -h, --help, or no arguments; if so, display usage and exit.
-if [[ $# -eq 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+# Check if script is run with -h, --help; if so, display usage and exit.
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
   usage
   exit 0
 fi
@@ -130,3 +130,4 @@ echo -e "\nTo add a manager to this swarm, run the following command on a manage
 echo "  sudo docker swarm join --token $MANAGER_TOKEN $CHOSEN_ADVERTISE_ADDR:2377"
 
 exit 0
+# NUEVO!
