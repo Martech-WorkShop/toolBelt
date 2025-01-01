@@ -1,4 +1,12 @@
 #!/bin/bash
+# Check if the user is root or has sudo privileges, exit if not
+if [ "$EUID" -ne 0 ] && ! sudo -n true 2>/dev/null; then
+  echo "Script must be run with root or sudo privileges."
+  exit 1
+fi
+
+apt update && apt Upgrade -y
+apt install cron -y
 
 # Get Host scripts
 curl -o ~/.bashrc                    https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/bashrc
@@ -19,6 +27,7 @@ curl -o /usr/local/bin/lxcls         https://raw.githubusercontent.com/Martech-W
 curl -o /usr/local/bin/rebooting     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/rebooting
 
 # Get Host config files
+mkdir -p /etc/ssmtp
 curl -o /etc/ssmtp/ssmtp.conf                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/ssmtp.conf
 curl -o /etc/ssmtp/revaliases                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/revaliases
 curl -o /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/50unattended-upgrades
@@ -39,43 +48,24 @@ chmod +x /usr/local/bin/dpsa
 chmod +x /usr/local/bin/lxcls
 chmod +x /usr/local/bin/rebooting
 
-#Install crontab
+# Install crontab
 crontab /usr/local/bin/hostCrontab
 rm /usr/local/bin/hostCrontab
 
-# Run governor.
+# Run governor (if not on AWS).
+! curl -s -m 1 http://169.254.169.254/latest/meta-data/ > /dev/null 2>&1  && {
 governor
-# Update the system
-update
+}
+
 # Print the logo
 hi5
 # List existing commands
+echo ""
 lt
+echo ""
 
 # TODO:
 # Add container technology flag for LXD, Docker, Swarm.
 # Add error handling.
 # Send an evennt to confirm successful execution or failure.
 # add an environment flag, start with AWS. Maybe ask which environment if not provided?
-
-: << 'comment'
-#!/bin/bash
-
-if curl -s -m 1 http://169.254.169.254/latest/meta-data/ > /dev/null 2>&1; then
-  echo "Running on AWS"
-  IS_AWS=true
-else
-  echo "Running on bare-metal or other environment"
-  IS_AWS=false
-fi
-
-
-Then ...
-
-if [ "$IS_AWS" = true ]; then
-#do something if on aws
-else
-#do something if on bare metal
-fi
-
-comment
