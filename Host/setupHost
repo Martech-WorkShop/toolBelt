@@ -1,28 +1,28 @@
 #!/bin/bash
 
 # Get host scripts
-curl -o	/usr/local/bin/lt		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/lt
-curl -o	/usr/local/bin/hi5		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hi5
-curl -o	/usr/local/bin/update		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/update
-curl -o	/usr/local/bin/hg		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hg
-curl -o	/usr/local/bin/run		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-dkr
-#curl -o	/usr/local/bin/run         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-lxd
-curl -o	/usr/local/bin/governor		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/governor
-curl -o	/usr/local/bin/afterReboot	https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/afterReboot
-curl -o	/usr/local/bin/dkr-install	https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-install
-curl -o	/usr/local/bin/dkr-swarm	https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-swarm
-curl -o	/usr/local/bin/hostCrontab	https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/hostCrontab
-curl -o	/usr/local/bin/dps		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dps
-curl -o	/usr/local/bin/dpsa		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dpsa
-curl -o	/usr/local/bin/lxcls		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/lxcls
-curl -o	/usr/local/bin/rebooting	https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/rebooting
-curl -o	~/.bashrc			https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/bashrc
+curl -o /usr/local/bin/lt            https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/lt
+curl -o /usr/local/bin/hi5           https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hi5
+curl -o /usr/local/bin/update        https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/update
+curl -o /usr/local/bin/hg            https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hg
+curl -o /usr/local/bin/run           https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-dkr
+#curl -o /usr/local/bin/run          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-lxd
+curl -o /usr/local/bin/governor      https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/governor
+curl -o /usr/local/bin/afterReboot   https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/afterReboot
+curl -o /usr/local/bin/dkr-install   https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-install
+curl -o /usr/local/bin/dkr-swarm     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-swarm
+curl -o /usr/local/bin/hostCrontab   https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/hostCrontab
+curl -o /usr/local/bin/dps           https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dps
+curl -o /usr/local/bin/dpsa          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dpsa
+curl -o /usr/local/bin/lxcls         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/lxcls
+curl -o /usr/local/bin/rebooting     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/rebooting
+curl -o ~/.bashrc                    https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/bashrc
 
 # Get config files
-curl -o	/etc/ssmtp/ssmtp.conf				https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/conf/ssmtp.conf
-curl -o	/etc/ssmtp/revaliases				https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/conf/revaliases
-curl -o	/etc/apt/apt.conf.d/50unattended-upgrades	https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/conf/50unattended-upgrades
-curl -o	/etc/apt/apt.conf.d/20auto-upgrades		https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/conf/20auto-upgrades
+curl -o /etc/ssmtp/ssmtp.conf                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/conf/ssmtp.conf
+curl -o /etc/ssmtp/revaliases                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/conf/revaliases
+curl -o /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/conf/50unattended-upgrades
+curl -o /etc/apt/apt.conf.d/20auto-upgrades       https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/conf/20auto-upgrades
 
 # Set permissions
 chmod +x /usr/local/bin/lt
