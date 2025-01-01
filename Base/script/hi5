@@ -14,7 +14,8 @@ command -v docker >/dev/null 2>&1 && swarm="$(docker info --format '{{.Swarm.Con
 mysql="$(mysqld --version 2>/dev/null | cut -c13-28)"
 #unit=""
 apache="$(apachectl -v 2>/dev/null | head -n1 | cut -c24-29)"
-mautic="$(grep -oP '(?<="version": ")[^"]*' /var/www/html/app/release_metadata.json)"
+[ -f "/var/www/html/app/release_metadata.json" ] && mautic="$(grep -oP '(?<="version": ")[^"]*' /var/www/html/app/release_metadata.json 2>/dev/null)"
+#mautic="$(grep -oP '(?<="version": ")[^"]*' /var/www/html/app/release_metadata.json)"
 php="$(php -v 2>/dev/null | head -n1 | cut -c5-11)"
 
 cpu="$(lscpu | grep "Model name" | cut -c37-75)"
