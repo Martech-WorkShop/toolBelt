@@ -1,1 +1,2 @@
+docker network create --driver overlay --attachable traefik-link
 docker stack deploy --compose-file=deployTraefik.yml traefik
