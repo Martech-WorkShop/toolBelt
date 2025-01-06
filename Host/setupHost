@@ -19,6 +19,7 @@ curl -o /usr/local/bin/governor    https://raw.githubusercontent.com/Martech-Wor
 curl -o /usr/local/bin/afterReboot https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/afterReboot
 curl -o /usr/local/bin/dkr-install https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-install
 curl -o /usr/local/bin/dkr-swarm   https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-swarm
+curl -o /usr/local/bin/dkr-traefik https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-traefik
 curl -o /usr/local/bin/dps         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dps
 curl -o /usr/local/bin/dpsa        https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dpsa
 curl -o /usr/local/bin/lxcls       https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/lxcls
@@ -31,6 +32,7 @@ curl -o /etc/ssmtp/ssmtp.conf                     https://raw.githubusercontent.
 curl -o /etc/ssmtp/revaliases                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/revaliases
 curl -o /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/50unattended-upgrades
 curl -o /etc/apt/apt.conf.d/20auto-upgrades       https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/20auto-upgrades
+curl -o deployTraefik.yml                         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/deployTraefik.yml
 
 # Set permissions
 chmod +x /usr/local/bin/lt
@@ -42,6 +44,7 @@ chmod +x /usr/local/bin/governor
 chmod +x /usr/local/bin/afterReboot
 chmod +x /usr/local/bin/dkr-install
 chmod +x /usr/local/bin/dkr-swarm
+chmod +x /usr/local/bin/dkr-traefik
 chmod +x /usr/local/bin/dps
 chmod +x /usr/local/bin/dpsa
 chmod +x /usr/local/bin/lxcls
