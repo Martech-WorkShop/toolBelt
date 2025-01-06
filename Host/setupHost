@@ -72,5 +72,6 @@ exit 0
 # TODO:
 # Add container technology flag for LXD, Docker, Swarm.
 # Add error handling.
-# Send an evennt to confirm successful execution or failure.
+# Send an event to confirm successful execution or failure.
 # add an environment flag, start with AWS. Maybe ask which environment if not provided?
+# Protect or simply close (eliminate) port 8080 (Traefik API UI)
