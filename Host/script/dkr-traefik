@@ -1,1 +1,1 @@
-docker stack deploy --compose-file=deployTraefik.yml
+docker stack deploy --compose-file=deployTraefik.yml traefik
