@@ -124,10 +124,9 @@ fi
 # Display ready-to-execute join commands
 WORKER_TOKEN=$(sudo docker swarm join-token worker -q)
 MANAGER_TOKEN=$(sudo docker swarm join-token manager -q)
-echo -e "\nTo add a worker to this swarm, run the following command on a worker node:"
+echo -e "\nTo add a WORKER use :"
 echo "  sudo docker swarm join --token $WORKER_TOKEN $CHOSEN_ADVERTISE_ADDR:2377"
-echo -e "\nTo add a manager to this swarm, run the following command on a manager node:"
+echo -e "\nTo add a MANAGER use:"
 echo "  sudo docker swarm join --token $MANAGER_TOKEN $CHOSEN_ADVERTISE_ADDR:2377"
 
 exit 0
-# NUEVO!
