@@ -1,2 +1,18 @@
 #! /bin/bash
+
+# Function to display usage instructions
+usage() {
+  echo "Usage: hg <search_term>"
+  echo "  Searches your bash history for the given search term."
+}
+
+# Check if the correct number of arguments is provided
+if [ $# -ne 1 ]; then
+  usage
+  exit 1
+fi
+
+# Search the current shell's history
 grep $1 ~/.bash_history --color=auto
+
+exit 0
