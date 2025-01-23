@@ -1,0 +1,6 @@
+# Creates a new user
+# Generates, installs and shares a new SSH key
+# Accepts a parameter for --root -r
+# Accepts a parameter for groups to be added to
+# Accepts a parameter for a files directory
+# Accepts a parameter for ...
