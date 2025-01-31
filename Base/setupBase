@@ -1,32 +1,28 @@
 #! /bin/bash
 
-#Beautify your prompt and add some aliases.
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/base/bashrc -O ~/.bashrc
+# curl -o setupHost https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/setupBaxe && bash setupBase
 
-#List local commands (if any)
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/base/lt -O /usr/local/bin/lt
+# Get Base scripts
+curl -o ~/.bashrc                  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/bashrc
+curl -o /usr/local/bin/hg          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hg
+curl -o /usr/local/bin/hi5         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hi5
+curl -o /usr/local/bin/lt          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/lt
+curl -o /usr/local/bin/update      https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/update
 
-# Login greeter
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/base/hi5 -O /usr/local/bin/hi5
+mkdir -p /etc/ssmtp
 
-# Updater script
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/base/update -O /usr/local/bin/update
-# History | Grep Alias
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/host/hg -O /usr/local/bin/hg
-
-# sSMTP configuration files
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/ssmtp.conf -O /etc/ssmtp/ssmtp.conf
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/revaliases -O /etc/ssmtp/revaliases
-
-# Confugure unattended upgrades
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/50unattended-upgrades -O /etc/apt/apt.conf.d/50unattended-upgrades
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/20auto-upgrades -O /etc/apt/apt.conf.d/20auto-upgrades
+# Get Base config files
+curl -o /etc/apt/apt.conf.d/20auto-upgrades       https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/20auto-upgrades
+curl -o /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/50unattended-upgrades
+curl -o cronjobs                                  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/cronjobs
+curl -o /etc/ssmtp/revaliases                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/revaliases
+curl -o /etc/ssmtp/ssmtp.conf                     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/ssmtp.conf
 
 # Add the executable flag to scrips
-chmod +x /usr/local/bin/lt
-chmod +x /usr/local/bin/hi5
-chmod +x /usr/local/bin/update
 chmod +x /usr/local/bin/hg
+chmod +x /usr/local/bin/hi5
+chmod +x /usr/local/bin/lt
+chmod +x /usr/local/bin/update
 
 # You send a test email with:
 # echo -e 'Subject: Hello there!\n\nDoing good here, how are you doing?' | sendmail -vvv your@email.com
