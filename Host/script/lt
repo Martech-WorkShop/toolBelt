@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -1 /usr/local/bin
+ls /usr/local/bin
