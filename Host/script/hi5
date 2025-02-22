@@ -39,6 +39,7 @@ lc="${reset}${bold}${yellow}"
 nc="${reset}${bold}${yellow}"
 ic="${reset}${red}"
 c0="${reset}${magenta}"
+echo""
 cat <<EOF
 ${c0}                                 -- ${ic}${reset}
 ${c0}                           ((((((())))))) ${ic}${reset}
@@ -90,3 +91,4 @@ ${c0}                ${ic}RAM:         ${lc}${ram}${reset}
 ${c0}                ${ic}SWAP:        ${lc}${swap}${reset}
 ${c0}                ${ic}Disk:        ${lc}${disk}${reset}
 EOF
+echo ""
