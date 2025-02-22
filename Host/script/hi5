@@ -19,7 +19,7 @@ cpu="$(lscpu | awk -F: '/Model name/{gsub(/  CPU.*/,""); print $2}' | awk '{$1=$
 
 ram="$(free -h | awk '/Mem/{printf "%9s %10s %10s", $2,$3,$4}' | sed 's/i//g')"
 swap="$(free -h | awk '/Swap/{printf "%9s %10s %10s", $2,$3,$4}')"
-disk="$(df -h --total | awk '/total/{printf "%9s %10s %10 %9s", $2,$3,$4,$5}' )"
+disk="$(df -h --total | awk '/total/{printf "%9s %10s %10s %9s", $2,$3,$4,$5}' )"
 
 #packages="$(dpkg -l | wc -l)"
 
