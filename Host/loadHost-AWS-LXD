@@ -1,0 +1,77 @@
+#!/bin/bash
+#curl -o setupHost https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/loadHost-AWS-LXD && bash loadHost-AWS-LXD
+
+# Script must be executed as root.
+[ "$EUID" -ne 0 ] && { echo "Script must be run as root"; exit 1; }
+
+apt update && apt upgrade -y
+apt install cron -y
+
+# Get Host scripts
+curl -o /root/.bashrc                https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/bashrc
+curl -o /usr/local/bin/lt            https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/lt
+curl -o /usr/local/bin/hi5           https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/hi5
+curl -o /usr/local/bin/update        https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/update
+curl -o /usr/local/bin/hg            https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/hg
+#curl -o /usr/local/bin/run          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-dkr
+curl -o /usr/local/bin/run           https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-lxd
+#curl -o /usr/local/bin/governor     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/governor
+#curl -o /usr/local/bin/afterReboot  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/afterReboot
+#curl -o /usr/local/bin/dkr-install  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-install
+#curl -o /usr/local/bin/dkr-swarm    https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-swarm
+#curl -o /usr/local/bin/dkr-traefik  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dkr-traefik
+#curl -o /usr/local/bin/dps          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dps
+#curl -o /usr/local/bin/dpsa         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/dpsa
+curl -o /usr/local/bin/lxcls         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/lxcls
+curl -o /usr/local/bin/rebooting     https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/rebooting
+
+# Get Host config files
+mkdir -p /etc/ssmtp
+curl -o cronjobs                                   https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/cronjobs
+curl -o /etc/ssmtp/ssmtp.conf                      https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/ssmtp.conf
+curl -o /etc/ssmtp/revaliases                      https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/revaliases
+curl -o /etc/apt/apt.conf.d/50unattended-upgrades  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/50unattended-upgrades
+curl -o /etc/apt/apt.conf.d/20auto-upgrades        https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/20auto-upgrades
+#curl -o deployTraefik.yml                         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/conf/deployTraefik.yml
+
+# Set permissions
+chmod +x /usr/local/bin/lt
+chmod +x /usr/local/bin/hi5
+chmod +x /usr/local/bin/update
+chmod +x /usr/local/bin/hg
+chmod +x /usr/local/bin/run
+chmod +x /usr/local/bin/governor
+#chmod +x /usr/local/bin/afterReboot
+#chmod +x /usr/local/bin/dkr-install
+#chmod +x /usr/local/bin/dkr-swarm
+#chmod +x /usr/local/bin/dkr-traefik
+#chmod +x /usr/local/bin/dps
+#chmod +x /usr/local/bin/dpsa
+chmod +x /usr/local/bin/lxcls
+chmod +x /usr/local/bin/rebooting
+echo -e "\n\n"
+
+# Install crontab
+crontab cronjobs
+# rm cronjobs
+
+# Run governor (if not on AWS).
+! curl -s -m 1 http://169.254.169.254/latest/meta-data/ > /dev/null 2>&1 && \
+governor
+echo -e "\n\n"
+
+# Print the logo
+hi5
+# List existing commands
+echo -e "\n\n"
+lt
+echo ""
+
+exit 0
+
+# TODO:
+# Add container technology flag for LXD, Docker, Swarm.
+# Add error handling.
+# Send an event to confirm successful execution or failure.
+# add an environment flag, start with AWS. Maybe ask which environment if not provided?
+# Protect or simply close (eliminate) port 8080 (Traefik API UI)

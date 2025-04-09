@@ -1,5 +1,5 @@
 #!/bin/bash
-#curl -o setupHost https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/setupHost && bash setupHost
+#curl -o setupHost https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/loadHost && bash loadHost
 
 # Script must be executed as root.
 [ "$EUID" -ne 0 ] && { echo "Script must be run as root"; exit 1; }
@@ -8,11 +8,11 @@ apt update && apt upgrade -y
 apt install cron -y
 
 # Get Host scripts
-curl -o ~/.bashrc                  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/bashrc
-curl -o /usr/local/bin/lt          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/lt
-curl -o /usr/local/bin/hi5         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hi5
-curl -o /usr/local/bin/update      https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/update
-curl -o /usr/local/bin/hg          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Base/script/hg
+curl -o ~/.bashrc                  https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/bashrc
+curl -o /usr/local/bin/lt          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/lt
+curl -o /usr/local/bin/hi5         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/hi5
+curl -o /usr/local/bin/update      https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/update
+curl -o /usr/local/bin/hg          https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/hg
 curl -o /usr/local/bin/run         https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-dkr
 #curl -o /usr/local/bin/run        https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/run-lxd
 curl -o /usr/local/bin/governor    https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/Prod/Host/script/governor
@@ -75,3 +75,4 @@ exit 0
 # Send an event to confirm successful execution or failure.
 # add an environment flag, start with AWS. Maybe ask which environment if not provided?
 # Protect or simply close (eliminate) port 8080 (Traefik API UI)
+# Configure ssmtp with a local variables file.
