@@ -1,27 +1,25 @@
-#! /bin/bash
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/mlocal -O /usr/local/bin/mlocal
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/mcache -O /usr/local/bin/mcache
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/permit -O /usr/local/bin/permit
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/virtHost -O /usr/local/bin/virtHost
 
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/mlocal -O /usr/local/bin/mlocal
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/mcache -O /usr/local/bin/mcache
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/permit -O /usr/local/bin/permit
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/virtHost -O /usr/local/bin/virtHost
-
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/taccess -O /usr/local/bin/taccess
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tapache -O /usr/local/bin/tapache
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tfpm8.0 -O /usr/local/bin/tfpm8.0
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tmautic -O /usr/local/bin/tmautic
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/taccess -O /usr/local/bin/taccess
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/tapache -O /usr/local/bin/tapache
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/tfpm8.2 -O /usr/local/bin/tfpm8.3
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/tmautic -O /usr/local/bin/tmautic
 
 # You should convert tfs to just ts with a parameter...
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tfaccess -O /usr/local/bin/tfaccess
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tfapache -O /usr/local/bin/tfapache
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tffpm8.0 -O /usr/local/bin/tffpm8.0
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tfmautic -O /usr/local/bin/tfmautic
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/tfaccess -O /usr/local/bin/tfaccess
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/tfapache -O /usr/local/bin/tfapache
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/tffpm8.2 -O /usr/local/bin/tffpm8.3
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/script/MTC/tfmautic -O /usr/local/bin/tfmautic
 
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/www.conf -O /etc/php/8.0/fpm/pool.d/www.conf
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/mpm_event.conf -O /etc/apache2/mods-enabled/mpm_event.conf
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/000-default.conf -O /etc/apache2/sites-available/000-default.conf
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/conf/fpm/www.conf-8.3 -O /etc/php/8.3/fpm/pool.d/www.conf
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/conf/apache/mpm_event.conf -O /etc/apache2/mods-enabled/mpm_event.conf
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/conf/apache/000-default.conf-8.3 -O /etc/apache2/sites-available/000-default.conf
 
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/insert-php80.ini
-wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/m8cronjobs
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/blob/Prod/Mautic/conf/php/insert-php83.ini
+wget https://raw.githubusercontent.com/Martech-WorkShop/toolBelt/refs/heads/Prod/Mautic/conf/cron/cronjobs
 
 
 chmod +x /usr/local/bin/mlocal

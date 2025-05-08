@@ -1,0 +1,40 @@
+#! /bin/bash
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/mlocal -O /usr/local/bin/mlocal
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/mcache -O /usr/local/bin/mcache
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/permit -O /usr/local/bin/permit
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/virtHost -O /usr/local/bin/virtHost
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/taccess -O /usr/local/bin/taccess
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tapache -O /usr/local/bin/tapache
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tfpm8.0 -O /usr/local/bin/tfpm8.0
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tmautic -O /usr/local/bin/tmautic
+
+# You should convert tfs to just ts with a parameter...
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tfaccess -O /usr/local/bin/tfaccess
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tfapache -O /usr/local/bin/tfapache
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tffpm8.0 -O /usr/local/bin/tffpm8.0
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/mtc/tfmautic -O /usr/local/bin/tfmautic
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/www.conf -O /etc/php/8.0/fpm/pool.d/www.conf
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/mpm_event.conf -O /etc/apache2/mods-enabled/mpm_event.conf
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/000-default.conf -O /etc/apache2/sites-available/000-default.conf
+
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/insert-php80.ini
+wget --user prv1 --password Hormiga2023 https://files.mktg.dev/prv/m8/cnf/m8cronjobs
+
+
+chmod +x /usr/local/bin/mlocal
+chmod +x /usr/local/bin/mcache
+chmod +x /usr/local/bin/permit
+chmod +x /usr/local/bin/virtHost
+
+chmod +x /usr/local/bin/taccess
+chmod +x /usr/local/bin/tapache
+chmod +x /usr/local/bin/tfpm8.0
+chmod +x /usr/local/bin/tmautic
+
+chmod +x /usr/local/bin/tfaccess
+chmod +x /usr/local/bin/tfapache
+chmod +x /usr/local/bin/tffpm8.0
+chmod +x /usr/local/bin/tfmautic
