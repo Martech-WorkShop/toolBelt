@@ -21,12 +21,6 @@
 #           ServerSignature Off
 #           FileETag none
 
-# For Apache version 2.4.10 and above, use SetHandler to run PHP as a fastCGI process server.
-# Alternatively, you can use the ProxyPassMatcxh method found towards the end of this file.
-    <FilesMatch \.php$>
-        SetHandler "proxy:unix:/run/php/php8.3-fpm.sock|fcgi://localhost"
-    </FilesMatch>
-
 
 # Mautic's .htaccess config goes here below
 
@@ -103,6 +97,6 @@
 
         </Directory>
 
-#    ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/run/php/php8.3-fpm.sock|fcgi://localhost/var/www/html/ timeout=600
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/run/php/php8.3-fpm.sock|fcgi://localhost/var/www/html/ timeout=600
 
 </VirtualHost>
