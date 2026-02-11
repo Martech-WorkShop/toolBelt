@@ -1,0 +1,32 @@
+#! /bin/bash
+
+path="/home/yosu/git"
+
+echo -e "\n\n --->>  AutoMautic  << ---\n"
+cd ${path}/AutoMautic
+gitall
+
+echo -e "\n\n --->> KISSmauticDKR << ---\n"
+cd ${path}/KISSmauticDKR
+gitall
+
+echo -e "\n\n --->>     mD     << ---\n"
+cd ${path}/mD
+gitall
+
+
+echo -e "\n\n --->>     md2     << ---\n"
+cd ${path}/md2
+gitall
+
+echo -e "\n\n --->>   release   << ---\n"
+cd ${path}/release
+gitall
+
+echo -e "\n\n --->>   toolBelt   << ---\n"
+cd ${path}/toolBelt
+gitall
+
+echo -e "\n\n --->>   aiv   << ---\n"
+cd ${path}/aiv
+gitall

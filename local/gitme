@@ -1,0 +1,2 @@
+git stage . && git commit --allow-empty-message -m "Bot, bot, bot" && git push
+

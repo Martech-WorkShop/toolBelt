@@ -1,0 +1,214 @@
+#!/bin/bash
+# Script: dhpub
+# Purpose: Build and publish Docker images to Docker Hub using docker-compose
+
+#───────────────────────    VARIABLES    ────────────────────────
+
+# Docker Hub Configuration (read from docker-compose.yml)
+DOCKER_COMPOSE_FILE="docker-compose.yml"
+
+# Script Variables
+TAG=""
+NON_INTERACTIVE=false
+IMAGE_NAME=""
+
+# Exit Codes
+EXIT_CODE_SUCCESS=0
+EXIT_CODE_ERROR=1
+EXIT_CODE_NO_COMPOSE_FILE=2
+EXIT_CODE_MISSING_TAG=3
+
+#────────────────────    MAIN FUNCTION    ────────────────────
+
+main() {
+    checkRequirements "$@"
+    extractImageName
+    getTag
+    buildAndPush
+}
+
+#───────────────────────    FUNCTIONS    ────────────────────────
+
+extractImageName() {
+    # Extract image name from docker-compose.yml for display purposes
+    IMAGE_NAME=$(grep -m1 "image:" "$DOCKER_COMPOSE_FILE" | sed 's/.*image: *\([^:]*\).*/\1/' || echo "unknown")
+}
+
+getTag() {
+    # Get TAG if not provided via command line
+    if [ -z "$TAG" ]; then
+        if [ "$NON_INTERACTIVE" = true ]; then
+            echo "Error: TAG required in non-interactive mode" >&2
+            echo "Usage: dhpub VERSION --non-interactive" >&2
+            exit $EXIT_CODE_MISSING_TAG
+        fi
+        
+        echo "📝 Enter version tag (e.g., v1.2.3):"
+        read -r TAG
+        
+        if [ -z "$TAG" ]; then
+            echo "Error: TAG cannot be empty" >&2
+            exit $EXIT_CODE_MISSING_TAG
+        fi
+    fi
+}
+
+buildAndPush() {
+    echo "📦 Building $IMAGE_NAME:$TAG"
+    TAG=$TAG docker compose build
+    
+    if [ $? -ne 0 ]; then
+        echo "Error: Build failed" >&2
+        exit $EXIT_CODE_ERROR
+    fi
+    
+    echo ""
+    echo "🔐 Logging in to Docker Hub..."
+    docker login
+    
+    if [ $? -ne 0 ]; then
+        echo "Error: Docker Hub login failed" >&2
+        exit $EXIT_CODE_ERROR
+    fi
+    
+    echo ""
+    echo "🚀 Pushing $IMAGE_NAME:$TAG to Docker Hub..."
+    TAG=$TAG docker compose push
+    
+    if [ $? -ne 0 ]; then
+        echo "Error: Push failed" >&2
+        exit $EXIT_CODE_ERROR
+    fi
+    
+    echo ""
+    echo "✅ Successfully published $IMAGE_NAME:$TAG"
+}
+
+#──────────────────    CHECK REQUIREMENTS    ───────────────────
+
+checkRequirements() {
+    validateAndAssign "$@"
+    checkDependencies
+    checkComposeFile
+}
+
+checkDependencies() {
+    local LOCAL_missing_dependencies=()
+    for dep in "docker" "grep" "sed"; do
+        if ! command -v "$dep" &> /dev/null; then
+            LOCAL_missing_dependencies+=("$dep")
+        fi
+    done
+    
+    if [ ${#LOCAL_missing_dependencies[@]} -gt 0 ]; then
+        echo "Missing required dependencies:" >&2
+        printf ' - %s\n' "${LOCAL_missing_dependencies[@]}" >&2
+        exit $EXIT_CODE_ERROR
+    fi
+    
+    # Check if docker compose command works
+    if ! docker compose version &> /dev/null; then
+        echo "Error: 'docker compose' command not available" >&2
+        echo "Make sure Docker Compose V2 is installed" >&2
+        exit $EXIT_CODE_ERROR
+    fi
+}
+
+checkComposeFile() {
+    if [ ! -f "$DOCKER_COMPOSE_FILE" ]; then
+        echo "Error: No $DOCKER_COMPOSE_FILE found in current directory" >&2
+        echo "Run this command from your project root" >&2
+        exit $EXIT_CODE_NO_COMPOSE_FILE
+    fi
+}
+
+validateAndAssign() {
+    while getopts ":h-:" LOCAL_option; do
+        case $LOCAL_option in
+            h) usage; exit 0 ;;
+            -)
+                case "${OPTARG}" in
+                    help) usage; exit 0 ;;
+                    non-interactive) NON_INTERACTIVE=true ;;
+                    *)
+                        echo "Error: Invalid option: --$OPTARG" >&2
+                        usage
+                        exit $EXIT_CODE_ERROR
+                        ;;
+                esac
+                ;;
+            \?) echo "Error: Invalid option: -$OPTARG" >&2; usage; exit $EXIT_CODE_ERROR ;;
+            :) echo "Error: Option -$OPTARG requires an argument." >&2; usage; exit $EXIT_CODE_ERROR ;;
+        esac
+    done
+    
+    # Shift to get positional arguments
+    shift $((OPTIND - 1))
+    
+    # First positional argument is the TAG
+    if [ -n "$1" ]; then
+        TAG="$1"
+    fi
+}
+
+#──────────────────────    USAGE / HELP    ──────────────────────
+
+usage() {
+    cat << EOF
+
+─────────────────────────────────────────────────────────────────────────────
+ dhpub - Docker Hub Publish
+─────────────────────────────────────────────────────────────────────────────
+
+- Short description:
+    Build and publish Docker images to Docker Hub using docker-compose.
+    Reads image configuration from docker-compose.yml in current directory.
+
+- Usage:
+    $(basename "$0") [VERSION] [--non-interactive] [-h|--help]
+
+- Options:
+    -h, --help          Display this help message
+    --non-interactive   Non-interactive mode (requires VERSION, no prompts)
+
+- Arguments:
+    VERSION             Version tag for the image (e.g., v1.2.3)
+                       If omitted in interactive mode, will prompt for input
+
+- Requirements:
+    - docker-compose.yml file in current directory
+    - Docker Compose V2 (docker compose command)
+    - Docker Hub account configured in docker-compose.yml
+
+- docker-compose.yml Configuration:
+    services:
+      app:
+        image: yourusername/yourapp:\${TAG}
+        build: .
+
+- Operation:
+    1. Reads image name from docker-compose.yml
+    2. Builds Docker image with specified version tag
+    3. Prompts for Docker Hub login (if not already logged in)
+    4. Pushes image to Docker Hub
+
+- Examples:
+    # Interactive mode (prompts for version)
+    $(basename "$0")
+
+    # Specify version directly
+    $(basename "$0") v1.2.3
+
+    # Non-interactive mode (for CI/CD)
+    $(basename "$0") v1.2.3 --non-interactive
+
+- Exit Codes:
+    0 - Success
+    1 - General error (build/push failed)
+    2 - No docker-compose.yml file found
+    3 - Missing TAG in non-interactive mode
+
+EOF
+}
+
+main "$@"
